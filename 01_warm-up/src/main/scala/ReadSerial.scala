@@ -44,10 +44,10 @@ switch(state) {
   }
 
   is(receive) {
-    io.shiftEn := 1.U
-    io.countEn := 1.U
+    io.shiftEn := 1.U  //tell shif register to store the incoming bit
+    io.countEn := 1.U  //tell counter to increase the count
 
-    when(io.bitDone === 1.U) {
+    when(io.bitDone === 1.U) {        //if 8bits finished
       state := done
     }
   }
@@ -87,7 +87,7 @@ class Counter extends Module{
     cnt := cnt + 1.U
   }
 
-  io.done := cnt === 8.U
+  io.done := cnt === 7.U
   // state machine
   /* 
    * TODO: Describe functionality if the counter as a state machine
@@ -108,7 +108,7 @@ class ShiftRegister extends Module{
   // internal variables
   val reg = RegInit(0.U(8.W))
   when(io.en === 1.U) {
-    reg := Cat(reg(6,0), io.in)
+    reg := Cat(reg(6,0), io.in)  //shifted left and new entered in right side
   }
 
   io.data := reg

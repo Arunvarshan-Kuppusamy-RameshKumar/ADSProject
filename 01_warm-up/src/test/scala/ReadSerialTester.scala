@@ -18,14 +18,32 @@ class ReadSerialTester extends AnyFlatSpec with ChiselScalatestTester {
 
   "ReadSerial" should "work" in {
     test(new ReadSerial).withAnnotations(Seq(WriteVcdAnnotation)) { dut =>
+        // bus idle
+        dut.io.rxd.poke(1.U)
+        dut.clock.step(1)
+        dut.io.valid.expect(0.U)
 
-        /*dut.io.rxd.poke(...)
-         *dut.clock.step(...)
-         *dut.io.valid.expect(...)
-         *dut.io.data.expect("b11111111".U) 
-         *...
-         *TODO: Add your testcases here
-         */
+        // start bit
+        dut.io.rxd.poke(0.U)
+        dut.clock.step(1)
+
+        // send data bits: 10110011, MSB first
+        val bits = Seq(1, 0, 1, 1, 0, 0, 1, 1)
+
+        for(bit <- bits) {
+          dut.io.rxd.poke(bit.U)
+          dut.clock.step(1)
+        }
+
+        // after 8 bits, valid should become high
+        dut.io.valid.expect(1.U)
+        dut.io.data.expect("b10110011".U)
+
+        // one more cycle: valid should go low again
+        dut.clock.step(1)
+        dut.io.valid.expect(0.U)
+        
+        
         }
     } 
 }
