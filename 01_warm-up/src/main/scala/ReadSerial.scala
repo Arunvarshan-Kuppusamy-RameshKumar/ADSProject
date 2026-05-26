@@ -14,15 +14,49 @@ import chisel3.util._
 class Controller extends Module{
   
   val io = IO(new Bundle {
-    /* 
-     * TODO: Define IO ports of a the component as stated in the documentation
-     */
+
+    val rxd      = Input(UInt(1.W))
+    val bitDone  = Input(UInt(1.W))
+
+    val shiftEn  = Output(UInt(1.W))
+    val countEn  = Output(UInt(1.W))
+    val countRst = Output(UInt(1.W))
+    val valid    = Output(UInt(1.W))
+    
     })
 
-  // internal variables
-  /* 
-   * TODO: Define internal variables (registers and/or wires), if needed
-   */
+  val idle :: receive :: done :: Nil = Enum(3)
+val state = RegInit(idle)
+
+io.shiftEn  := 0.U
+io.countEn  := 0.U
+io.countRst := 0.U
+io.valid    := 0.U
+
+switch(state) {
+
+  is(idle) {
+    io.countRst := 1.U
+
+    when(io.rxd === 0.U) {
+      state := receive
+    }
+  }
+
+  is(receive) {
+    io.shiftEn := 1.U
+    io.countEn := 1.U
+
+    when(io.bitDone === 1.U) {
+      state := done
+    }
+  }
+
+  is(done) {
+    io.valid := 1.U
+    state := idle
+  }
+}
 
   // state machine
   /* 
@@ -36,16 +70,24 @@ class Controller extends Module{
 class Counter extends Module{
   
   val io = IO(new Bundle {
-    /* 
-     * TODO: Define IO ports of a the component as stated in the documentation
-     */
+    val en    = Input(UInt(1.W))
+    val rstC  = Input(UInt(1.W))
+
+    val done  = Output(UInt(1.W))
     })
 
   // internal variables
+  val cnt = RegInit(0.U(4.W))
   /* 
    * TODO: Define internal variables (registers and/or wires), if needed
    */
+  when(io.rstC === 1.U) {
+    cnt := 0.U
+  } .elsewhen(io.en === 1.U) {
+    cnt := cnt + 1.U
+  }
 
+  io.done := cnt === 8.U
   // state machine
   /* 
    * TODO: Describe functionality if the counter as a state machine
@@ -58,12 +100,19 @@ class Counter extends Module{
 class ShiftRegister extends Module{
   
   val io = IO(new Bundle {
-    /* 
-     * TODO: Define IO ports of a the component as stated in the documentation
-     */
+    val en   = Input(UInt(1.W))
+    val in   = Input(UInt(1.W))
+    val data = Output(UInt(8.W))
     })
 
   // internal variables
+  val reg = RegInit(0.U(8.W))
+  when(io.en === 1.U) {
+    reg := Cat(reg(6,0), io.in)
+  }
+
+  io.data := reg
+
   /* 
    * TODO: Define internal variables (registers and/or wires), if needed
    */
@@ -88,12 +137,27 @@ class ShiftRegister extends Module{
 class ReadSerial extends Module{
   
   val io = IO(new Bundle {
-    /* 
-     * TODO: Define IO ports of a the component as stated in the documentation
-     */
+    val rxd   = Input(UInt(1.W))
+    val data  = Output(UInt(8.W))
+    val valid = Output(UInt(1.W))
     })
 
 
+  val ctrl = Module(new Controller)
+  val cnt  = Module(new Counter)
+  val sr   = Module(new ShiftRegister)
+
+  ctrl.io.rxd     := io.rxd
+  ctrl.io.bitDone := cnt.io.done
+
+  cnt.io.en   := ctrl.io.countEn
+  cnt.io.rstC := ctrl.io.countRst
+
+  sr.io.en := ctrl.io.shiftEn
+  sr.io.in := io.rxd
+
+  io.data  := sr.io.data
+  io.valid := ctrl.io.valid
   // instanciation of modules
   /* 
    * TODO: Instanciate the modules that you need
