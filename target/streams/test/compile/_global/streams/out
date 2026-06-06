@@ -1,0 +1,76 @@
+[0m[[0m[31merror[0m] [0m[0m/home/arunvarshan/ADSProject/02_ALU/src/test/scala/alu_tb.scala:19:14: value operandA is not a member of chisel3.Bundle[0m
+[0m[[0m[31merror[0m] [0m[0m      dut.io.operandA.poke(10.U)[0m
+[0m[[0m[31merror[0m] [0m[0m             ^[0m
+[0m[[0m[31merror[0m] [0m[0m/home/arunvarshan/ADSProject/02_ALU/src/test/scala/alu_tb.scala:20:14: value operandB is not a member of chisel3.Bundle[0m
+[0m[[0m[31merror[0m] [0m[0m      dut.io.operandB.poke(10.U)[0m
+[0m[[0m[31merror[0m] [0m[0m             ^[0m
+[0m[[0m[31merror[0m] [0m[0m/home/arunvarshan/ADSProject/02_ALU/src/test/scala/alu_tb.scala:21:14: value operation is not a member of chisel3.Bundle[0m
+[0m[[0m[31merror[0m] [0m[0m      dut.io.operation.poke(ALUOp.ADD)[0m
+[0m[[0m[31merror[0m] [0m[0m             ^[0m
+[0m[[0m[31merror[0m] [0m[0m/home/arunvarshan/ADSProject/02_ALU/src/test/scala/alu_tb.scala:21:29: not found: value ALUOp[0m
+[0m[[0m[31merror[0m] [0m[0m      dut.io.operation.poke(ALUOp.ADD)[0m
+[0m[[0m[31merror[0m] [0m[0m                            ^[0m
+[0m[[0m[31merror[0m] [0m[0m/home/arunvarshan/ADSProject/02_ALU/src/test/scala/alu_tb.scala:22:14: value aluResult is not a member of chisel3.Bundle[0m
+[0m[[0m[31merror[0m] [0m[0m      dut.io.aluResult.expect(20.U)[0m
+[0m[[0m[31merror[0m] [0m[0m             ^[0m
+[0m[[0m[31merror[0m] [0m[0m/home/arunvarshan/ADSProject/02_ALU/src/test/scala/alu_tb.scala:27:14: value operandA is not a member of chisel3.Bundle[0m
+[0m[[0m[31merror[0m] [0m[0m      dut.io.operandA.poke(0.U)[0m
+[0m[[0m[31merror[0m] [0m[0m             ^[0m
+[0m[[0m[31merror[0m] [0m[0m/home/arunvarshan/ADSProject/02_ALU/src/test/scala/alu_tb.scala:28:14: value operandB is not a member of chisel3.Bundle[0m
+[0m[[0m[31merror[0m] [0m[0m      dut.io.operandB.poke(0.U)[0m
+[0m[[0m[31merror[0m] [0m[0m             ^[0m
+[0m[[0m[31merror[0m] [0m[0m/home/arunvarshan/ADSProject/02_ALU/src/test/scala/alu_tb.scala:29:14: value operation is not a member of chisel3.Bundle[0m
+[0m[[0m[31merror[0m] [0m[0m      dut.io.operation.poke(ALUOp.ADD)[0m
+[0m[[0m[31merror[0m] [0m[0m             ^[0m
+[0m[[0m[31merror[0m] [0m[0m/home/arunvarshan/ADSProject/02_ALU/src/test/scala/alu_tb.scala:29:29: not found: value ALUOp[0m
+[0m[[0m[31merror[0m] [0m[0m      dut.io.operation.poke(ALUOp.ADD)[0m
+[0m[[0m[31merror[0m] [0m[0m                            ^[0m
+[0m[[0m[31merror[0m] [0m[0m/home/arunvarshan/ADSProject/02_ALU/src/test/scala/alu_tb.scala:30:14: value aluResult is not a member of chisel3.Bundle[0m
+[0m[[0m[31merror[0m] [0m[0m      dut.io.aluResult.expect(0.U)[0m
+[0m[[0m[31merror[0m] [0m[0m             ^[0m
+[0m[[0m[31merror[0m] [0m[0m/home/arunvarshan/ADSProject/02_ALU/src/test/scala/alu_tb.scala:34:14: value operandA is not a member of chisel3.Bundle[0m
+[0m[[0m[31merror[0m] [0m[0m      dut.io.operandA.poke(25.U)[0m
+[0m[[0m[31merror[0m] [0m[0m             ^[0m
+[0m[[0m[31merror[0m] [0m[0m/home/arunvarshan/ADSProject/02_ALU/src/test/scala/alu_tb.scala:35:14: value operandB is not a member of chisel3.Bundle[0m
+[0m[[0m[31merror[0m] [0m[0m      dut.io.operandB.poke(0.U)[0m
+[0m[[0m[31merror[0m] [0m[0m             ^[0m
+[0m[[0m[31merror[0m] [0m[0m/home/arunvarshan/ADSProject/02_ALU/src/test/scala/alu_tb.scala:36:14: value operation is not a member of chisel3.Bundle[0m
+[0m[[0m[31merror[0m] [0m[0m      dut.io.operation.poke(ALUOp.ADD)[0m
+[0m[[0m[31merror[0m] [0m[0m             ^[0m
+[0m[[0m[31merror[0m] [0m[0m/home/arunvarshan/ADSProject/02_ALU/src/test/scala/alu_tb.scala:36:29: not found: value ALUOp[0m
+[0m[[0m[31merror[0m] [0m[0m      dut.io.operation.poke(ALUOp.ADD)[0m
+[0m[[0m[31merror[0m] [0m[0m                            ^[0m
+[0m[[0m[31merror[0m] [0m[0m/home/arunvarshan/ADSProject/02_ALU/src/test/scala/alu_tb.scala:37:14: value aluResult is not a member of chisel3.Bundle[0m
+[0m[[0m[31merror[0m] [0m[0m      dut.io.aluResult.expect(25.U)[0m
+[0m[[0m[31merror[0m] [0m[0m             ^[0m
+[0m[[0m[31merror[0m] [0m[0m/home/arunvarshan/ADSProject/02_ALU/src/test/scala/alu_tb.scala:41:14: value operandA is not a member of chisel3.Bundle[0m
+[0m[[0m[31merror[0m] [0m[0m      dut.io.operandA.poke("hFFFFFFFF".U)[0m
+[0m[[0m[31merror[0m] [0m[0m             ^[0m
+[0m[[0m[31merror[0m] [0m[0m/home/arunvarshan/ADSProject/02_ALU/src/test/scala/alu_tb.scala:42:14: value operandB is not a member of chisel3.Bundle[0m
+[0m[[0m[31merror[0m] [0m[0m      dut.io.operandB.poke(1.U)[0m
+[0m[[0m[31merror[0m] [0m[0m             ^[0m
+[0m[[0m[31merror[0m] [0m[0m/home/arunvarshan/ADSProject/02_ALU/src/test/scala/alu_tb.scala:43:14: value operation is not a member of chisel3.Bundle[0m
+[0m[[0m[31merror[0m] [0m[0m      dut.io.operation.poke(ALUOp.ADD)[0m
+[0m[[0m[31merror[0m] [0m[0m             ^[0m
+[0m[[0m[31merror[0m] [0m[0m/home/arunvarshan/ADSProject/02_ALU/src/test/scala/alu_tb.scala:43:29: not found: value ALUOp[0m
+[0m[[0m[31merror[0m] [0m[0m      dut.io.operation.poke(ALUOp.ADD)[0m
+[0m[[0m[31merror[0m] [0m[0m                            ^[0m
+[0m[[0m[31merror[0m] [0m[0m/home/arunvarshan/ADSProject/02_ALU/src/test/scala/alu_tb.scala:44:14: value aluResult is not a member of chisel3.Bundle[0m
+[0m[[0m[31merror[0m] [0m[0m      dut.io.aluResult.expect(0.U)[0m
+[0m[[0m[31merror[0m] [0m[0m             ^[0m
+[0m[[0m[31merror[0m] [0m[0m/home/arunvarshan/ADSProject/02_ALU/src/test/scala/alu_tb.scala:48:14: value operandA is not a member of chisel3.Bundle[0m
+[0m[[0m[31merror[0m] [0m[0m      dut.io.operandA.poke("hFFFFFFFF".U)[0m
+[0m[[0m[31merror[0m] [0m[0m             ^[0m
+[0m[[0m[31merror[0m] [0m[0m/home/arunvarshan/ADSProject/02_ALU/src/test/scala/alu_tb.scala:49:14: value operandB is not a member of chisel3.Bundle[0m
+[0m[[0m[31merror[0m] [0m[0m      dut.io.operandB.poke("hFFFFFFFF".U)[0m
+[0m[[0m[31merror[0m] [0m[0m             ^[0m
+[0m[[0m[31merror[0m] [0m[0m/home/arunvarshan/ADSProject/02_ALU/src/test/scala/alu_tb.scala:50:14: value operation is not a member of chisel3.Bundle[0m
+[0m[[0m[31merror[0m] [0m[0m      dut.io.operation.poke(ALUOp.ADD)[0m
+[0m[[0m[31merror[0m] [0m[0m             ^[0m
+[0m[[0m[31merror[0m] [0m[0m/home/arunvarshan/ADSProject/02_ALU/src/test/scala/alu_tb.scala:50:29: not found: value ALUOp[0m
+[0m[[0m[31merror[0m] [0m[0m      dut.io.operation.poke(ALUOp.ADD)[0m
+[0m[[0m[31merror[0m] [0m[0m                            ^[0m
+[0m[[0m[31merror[0m] [0m[0m/home/arunvarshan/ADSProject/02_ALU/src/test/scala/alu_tb.scala:51:14: value aluResult is not a member of chisel3.Bundle[0m
+[0m[[0m[31merror[0m] [0m[0m      dut.io.aluResult.expect("hFFFFFFFE".U)[0m
+[0m[[0m[31merror[0m] [0m[0m             ^[0m
+[0m[[0m[31merror[0m] [0m[0m25 errors found[0m
