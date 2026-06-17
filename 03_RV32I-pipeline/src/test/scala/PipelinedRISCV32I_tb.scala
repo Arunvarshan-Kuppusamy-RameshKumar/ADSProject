@@ -104,7 +104,37 @@ class PipelinedRISCV32ITest extends AnyFlatSpec with ChiselScalatestTester {
       dut.clock.step(1)
       dut.io.result.expect(1.U)     // SLTU x13, x5, x4
       dut.io.exception.expect(false.B)
-      dut.clock.step(1)           
+      dut.clock.step(1)      
+      dut.io.result.expect(31.U)    // XORI x14, x5, 15
+      dut.io.exception.expect(false.B)
+      dut.clock.step(1)
+      dut.io.result.expect(31.U)    // ORI x15, x5, 15
+      dut.io.exception.expect(false.B)
+      dut.clock.step(1)
+      dut.io.result.expect(0.U)     // ANDI x16, x5, 15
+      dut.io.exception.expect(false.B)
+      dut.clock.step(1)
+      dut.io.result.expect(1.U)     // SLTI x17, x5, 20
+      dut.io.exception.expect(false.B)
+      dut.clock.step(1)
+      dut.io.result.expect(0.U)     // SLTI x18, x5, 2
+      dut.io.exception.expect(false.B)
+      dut.clock.step(1)
+      dut.io.result.expect(0.U)     // SLTIU x19, x5, 2
+      dut.io.exception.expect(false.B)
+      dut.clock.step(1)
+      dut.io.result.expect(1.U)     // SLTIU x20, x5, 20
+      dut.io.exception.expect(false.B)
+      dut.clock.step(1)
+      dut.io.result.expect(64.U)    // SLLI x21, x5, 2
+      dut.io.exception.expect(false.B)
+      dut.clock.step(1)
+      dut.io.result.expect(4.U)     // SRLI x22, x5, 2
+      dut.io.exception.expect(false.B)
+      dut.clock.step(1)
+      dut.io.result.expect(4.U)     // SRAI x23, x5, 2
+      dut.io.exception.expect(false.B)
+      dut.clock.step(1)     
     }
   }
 }

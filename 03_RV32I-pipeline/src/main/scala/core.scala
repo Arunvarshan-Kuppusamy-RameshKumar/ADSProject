@@ -52,15 +52,83 @@ package core_tile
 import chisel3._
 import chisel3.util._
 import chisel3.util.experimental.loadMemoryFromFile
-import Assignment02.{ALU, ALUOp}
+//import Assignment02.{ALU, ALUOp}
 import uopc._
 
 
 class PipelinedRV32Icore (BinaryFile: String) extends Module {
   val io = IO(new Bundle {
     //ToDo: Add I/O ports
+    //These go outside to the testbench.
+    val check_res = Output(UInt(32.W))
+    val exception = Output(Bool())
   })
 
 //ToDo: Add your implementation according to the specification above here 
+val ifStage    = Module(new IF(BinaryFile))
+  val ifBarrier  = Module(new IFBarrier)
+  val idStage    = Module(new ID)
+  val idBarrier  = Module(new IDBarrier)
+  val exStage    = Module(new EX)
+  val exBarrier  = Module(new EXBarrier)
+  val memStage   = Module(new MEM)
+  val memBarrier = Module(new MEMBarrier)
+  val wbStage    = Module(new WB)
+  val wbBarrier  = Module(new WBBarrier)
+
+  val registerFile = Module(new regFile)
+
+  // IF -> IF Barrier
+  ifBarrier.io.inInstr := ifStage.io.instr
+
+  // IF Barrier -> ID
+  idStage.io.instr := ifBarrier.io.outInstr
+
+  // Register file read connections
+  registerFile.io.req_1 <> idStage.io.regFileReq_A
+  idStage.io.regFileResp_A <> registerFile.io.resp_1
+
+  registerFile.io.req_2 <> idStage.io.regFileReq_B
+  idStage.io.regFileResp_B <> registerFile.io.resp_2
+
+  // ID -> ID Barrier
+  idBarrier.io.inUOP         := idStage.io.uop
+  idBarrier.io.inRD          := idStage.io.rd
+  idBarrier.io.inOperandA    := idStage.io.operandA
+  idBarrier.io.inOperandB    := idStage.io.operandB
+  idBarrier.io.inXcptInvalid := idStage.io.XcptInvalid
+
+  // ID Barrier -> EX
+  exStage.io.inUOP         := idBarrier.io.outUOP
+  exStage.io.inRD          := idBarrier.io.outRD
+  exStage.io.inOperandA    := idBarrier.io.outOperandA
+  exStage.io.inOperandB    := idBarrier.io.outOperandB
+  exStage.io.inXcptInvalid := idBarrier.io.outXcptInvalid
+
+  // EX -> EX Barrier
+  exBarrier.io.inAluResult   := exStage.io.aluResult
+  exBarrier.io.inRD          := exStage.io.outRD
+  exBarrier.io.inXcptInvalid := exStage.io.outXcptInvalid
+
+  // EX Barrier -> MEM Barrier
+  memBarrier.io.inAluResult   := exBarrier.io.outAluResult
+  memBarrier.io.inRD          := exBarrier.io.outRD
+  memBarrier.io.inXcptInvalid := exBarrier.io.outXcptInvalid
+
+  // MEM Barrier -> WB
+  wbStage.io.aluResult     := memBarrier.io.outAluResult
+  wbStage.io.rd            := memBarrier.io.outRD
+  wbStage.io.inXcptInvalid := memBarrier.io.outXcptInvalid
+
+  // WB -> Register file write
+  registerFile.io.req_3 <> wbStage.io.regFileReq
+
+  // WB -> WB Barrier -> core output
+  wbBarrier.io.inCheckRes    := wbStage.io.check_res
+  wbBarrier.io.inXcptInvalid := wbStage.io.exception
+
+  io.check_res := wbBarrier.io.outCheckRes
+  io.exception := wbBarrier.io.outXcptInvalid
+
 
 }

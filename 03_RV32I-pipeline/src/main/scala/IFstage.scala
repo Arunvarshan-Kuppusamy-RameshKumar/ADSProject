@@ -42,8 +42,25 @@ import chisel3.util.experimental.loadMemoryFromFile
 class IF (BinaryFile: String) extends Module {
   val io = IO(new Bundle {
     // ToDo: Add I/O ports
+    val instr = Output(UInt(32.W))   //sends the fetched instruction to the IF/ID barrier.
   })
 
 //ToDo: Add your implementation according to the specification above here 
-  
+  // Program Counter, starts from address 0
+  val PC = RegInit(0.U(32.W))
+
+  // Instruction memory: 4096 words, each 32 bits
+  val IMem = Mem(4096, UInt(32.W))
+
+  // Load instructions from binary file
+  loadMemoryFromFile(IMem, BinaryFile)
+
+  // Fetch instruction using word-aligned address
+  // Fetch instruction from instruction memory using the current program counter.
+// PC stores byte addresses (0, 4, 8, 12, ...), while IMem is indexed by words.
+// PC(13,2) removes the lower 2 bits, effectively dividing PC by 4 to obtain the correct memory index.
+  io.instr := IMem(PC(13, 2))
+
+  // Move to next instruction every clock cycle
+  PC := PC + 4.U
 }
