@@ -79,7 +79,7 @@ class ID extends Module {
   io.operandB    := io.regFileResp_B.data
   io.XcptInvalid := false.B
 
-  switch(opcode) {
+  switch(opcode) {          ////////////////////
 
     // R-Type instructions
     is("b0110011".U) {

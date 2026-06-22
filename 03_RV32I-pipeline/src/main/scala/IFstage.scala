@@ -59,8 +59,8 @@ class IF (BinaryFile: String) extends Module {
   // Fetch instruction from instruction memory using the current program counter.
 // PC stores byte addresses (0, 4, 8, 12, ...), while IMem is indexed by words.
 // PC(13,2) removes the lower 2 bits, effectively dividing PC by 4 to obtain the correct memory index.
-  io.instr := IMem(PC(13, 2))
+  io.instr := IMem(PC(13, 2))  /////////
 
   // Move to next instruction every clock cycle
-  PC := PC + 4.U
+  PC := PC + 4.U  ///////////
 }

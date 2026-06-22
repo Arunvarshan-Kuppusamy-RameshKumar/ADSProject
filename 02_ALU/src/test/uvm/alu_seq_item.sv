@@ -11,18 +11,28 @@ import alu_tb_config_pkg::*;
 
 class alu_seq_item extends uvm_sequence_item;
 
-    //ToDo: define the fields of the sequence item
+    rand bit [31:0] operandA;
+    rand bit [31:0] operandB;
+    rand ALUOp operation;
+    bit [31:0] aluResult;
 
-    //ToDo: register the class with the factory
+    `uvm_object_utils_begin(alu_seq_item)  //UVM can create this object automatically during simulation.
+        `uvm_field_int(operandA, UVM_DEFAULT)
+        `uvm_field_int(operandB, UVM_DEFAULT)
+        `uvm_field_enum(ALUOp, operation, UVM_DEFAULT)
+        `uvm_field_int(aluResult, UVM_DEFAULT)
+    `uvm_object_utils_end
 
-    //ToDo: add constraint for operation field
+    constraint aluOp_constraint {
+        operation inside {ADD, SUB, AND, OR, XOR, SLL, SRL, SRA, SLT, SLTU, PASSB};
+    }
 
-    virtual function string convert2str();
+    virtual function string convert2str();  //converts one transaction into readable text.
         return $sformatf("operandA: 0x%0x, operandB: 0x%0x, operation: %0p, aluResult: 0x%0x", operandA, operandB, operation, aluResult);
     endfunction
 
     function new(string name = "alu_seq_item"); 
-        super.new(name);
+        super.new(name);  //calls the constructor of the parent class and initializes the UVM object correctly before the child class is used.
     endfunction   
 
 endclass

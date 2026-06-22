@@ -1,49 +1,66 @@
-// ToDo: Add your ALU implementation from Assignment02 here
-
-package core_tile
+package Assignment02
 
 import chisel3._
 import chisel3.util._
+import chisel3.experimental.ChiselEnum
 
-class ALU extends Module{
-    val io = IO(new Bundle{
-        val in1 = Input(UInt(32.W))
-        val in2 = Input(UInt(32.W))
-        val alu_op = Input(uopc())
-        val result = Output(UInt(32.W))
-    })
-    io.result := 0.U
+object ALUOp extends ChiselEnum {
+  val ADD, SUB, AND, OR, XOR, SLL, SRL, SRA, SLT, SLTU, PASSB = Value
+}
 
-    switch(io.alu_op) {
-    is(uopc.ADD)  { io.result := io.in1 + io.in2 }
-    is(uopc.ADDI) { io.result := io.in1 + io.in2 }
+class ALU extends Module {
+  val io = IO(new Bundle {
+    val operandA  = Input(UInt(32.W))
+    val operandB  = Input(UInt(32.W))
+    val operation = Input(ALUOp())
+    val aluResult = Output(UInt(32.W))
+  })
 
-    is(uopc.SUB)  { io.result := io.in1 - io.in2 }
+  io.aluResult := 0.U
 
-    is(uopc.SLL)  { io.result := io.in1 << io.in2(4, 0) }
-    is(uopc.SLLI) { io.result := io.in1 << io.in2(4, 0) }
+  switch(io.operation) {
+    is(ALUOp.ADD) {
+      io.aluResult := io.operandA + io.operandB
+    }
 
-    is(uopc.SLT)  { io.result := (io.in1.asSInt < io.in2.asSInt).asUInt }
-    is(uopc.SLTI) { io.result := (io.in1.asSInt < io.in2.asSInt).asUInt }
+    is(ALUOp.SUB) {
+      io.aluResult := io.operandA - io.operandB
+    }
 
-    is(uopc.SLTU)  { io.result := io.in1 < io.in2 }
-    is(uopc.SLTIU) { io.result := io.in1 < io.in2 }
+    is(ALUOp.AND) {
+      io.aluResult := io.operandA & io.operandB
+    }
 
-    is(uopc.XOR)  { io.result := io.in1 ^ io.in2 }
-    is(uopc.XORI) { io.result := io.in1 ^ io.in2 }
+    is(ALUOp.OR) {
+      io.aluResult := io.operandA | io.operandB
+    }
 
-    is(uopc.SRL)  { io.result := io.in1 >> io.in2(4, 0) }
-    is(uopc.SRLI) { io.result := io.in1 >> io.in2(4, 0) }
+    is(ALUOp.XOR) {
+      io.aluResult := io.operandA ^ io.operandB
+    }
 
-    is(uopc.SRA)  { io.result := (io.in1.asSInt >> io.in2(4, 0)).asUInt }
-    is(uopc.SRAI) { io.result := (io.in1.asSInt >> io.in2(4, 0)).asUInt }
+    is(ALUOp.SLL) {
+      io.aluResult := io.operandA << io.operandB(4, 0)
+    }
 
-    is(uopc.OR)   { io.result := io.in1 | io.in2 }
-    is(uopc.ORI)  { io.result := io.in1 | io.in2 }
+    is(ALUOp.SRL) {
+      io.aluResult := io.operandA >> io.operandB(4, 0)
+    }
 
-    is(uopc.AND)  { io.result := io.in1 & io.in2 }
-    is(uopc.ANDI) { io.result := io.in1 & io.in2 }
+    is(ALUOp.SRA) {
+      io.aluResult := (io.operandA.asSInt >> io.operandB(4, 0)).asUInt
+    }
 
-    is(uopc.NOP)  { io.result := 0.U }
+    is(ALUOp.SLT) {
+      io.aluResult := Mux(io.operandA.asSInt < io.operandB.asSInt, 1.U(32.W), 0.U(32.W))
+    }
+
+    is(ALUOp.SLTU) {
+      io.aluResult := Mux(io.operandA < io.operandB, 1.U(32.W), 0.U(32.W))
+    }
+
+    is(ALUOp.PASSB) {
+      io.aluResult := io.operandB
+    }
   }
 }
