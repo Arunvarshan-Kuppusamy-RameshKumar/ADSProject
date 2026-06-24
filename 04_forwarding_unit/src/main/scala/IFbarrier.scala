@@ -20,6 +20,9 @@ Functionality:
     Save all input signals to a register and output them in the following clock cycle
 */
 
+///////////////////////////Its job is to store the fetched instruction for one clock cycle (It's the process between IF and ID)
+
+
 package core_tile
 
 import chisel3._
@@ -31,8 +34,21 @@ import chisel3._
 class IFBarrier extends Module {
   val io = IO(new Bundle {
     //ToDo: Add I/O ports
+    val inInstr  = Input(UInt(32.W))
+    val outInstr = Output(UInt(32.W))
   })
 
 //ToDo: Add your implementation according to the specification above here 
+      // Pipeline register to store fetched instruction for one clock cycle
+        val instrReg = RegInit(0.U(32.W))
+
+        // Save instruction from IF stage
+        instrReg := io.inInstr
+
+        // Send stored instruction to ID stage
+        io.outInstr := instrReg
+
+//Cycle 1: IF fetches instruction
+//Cycle 2: IFBarrier gives that instruction to ID stage
 
 }

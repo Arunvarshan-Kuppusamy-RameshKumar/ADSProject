@@ -44,5 +44,122 @@ import uopc._
 // -----------------------------------------
 // Decode Stage
 // -----------------------------------------
+class ID extends Module {
+  val io = IO(new Bundle {
+    val instr = Input(UInt(32.W))  // Instruction received from IF Barrier for decoding
+    // Register File Read Port A: request address of rs1 and receive its data
+    val regFileReq_A  = Output(new regFileReadReq)
+    val regFileResp_A = Input(new regFileReadResp)
+    // Register File Read Port B: request address of rs2 and receive its data
+    val regFileReq_B  = Output(new regFileReadReq)
+    val regFileResp_B = Input(new regFileReadResp)
+
+    val uop         = Output(uopc()) // Decoded micro-operation code (ADD, SUB, AND, OR, etc.) sent to EX stage
+    val rd          = Output(UInt(5.W))
+    val rs1         = Output(UInt(5.W))
+    val rs2         = Output(UInt(5.W))
+    val operandA    = Output(UInt(32.W))
+    val operandB    = Output(UInt(32.W))
+    val XcptInvalid = Output(Bool()) // Exception flag indicating an invalid or unsupported instruction
+  })
+
+  val opcode = io.instr(6, 0)    //instruction type
+  val rd     = io.instr(11, 7)   
+  val funct3 = io.instr(14, 12)  //operation details
+  val rs1    = io.instr(19, 15)  //source reg 1
+  val rs2    = io.instr(24, 20)  //source reg 2
+  val funct7 = io.instr(31, 25)  //extra operation details
+
+  val immI = io.instr(31, 20).asSInt.asUInt  /////
+
+  io.regFileReq_A.addr := rs1
+  io.regFileReq_B.addr := rs2
+
+  io.uop         := uopc.NOP
+  io.rd          := rd
+  io.rs1         := rs1
+  io.rs2         := 0.U
+  io.operandA    := io.regFileResp_A.data
+  io.operandB    := io.regFileResp_B.data
+  io.XcptInvalid := false.B
+
+  switch(opcode) {          ////////////////////
+
+    // R-Type instructions
+
+    is("b0110011".U) {
+      io.rs2 := rs2
+      io.operandB := io.regFileResp_B.data  //For R-type, second operand comes from register rs2.
+
+      switch(funct3) {
+        is("b000".U) {
+          when(funct7 === "b0000000".U) {
+            io.uop := uopc.ADD
+          } .elsewhen(funct7 === "b0100000".U) {
+            io.uop := uopc.SUB
+          } .otherwise {
+            io.XcptInvalid := true.B
+          }
+        }
+
+        is("b001".U) { io.uop := uopc.SLL  }
+        is("b010".U) { io.uop := uopc.SLT  }
+        is("b011".U) { io.uop := uopc.SLTU }
+        is("b100".U) { io.uop := uopc.XOR  }
+
+        is("b101".U) {
+          when(funct7 === "b0000000".U) {
+            io.uop := uopc.SRL
+          } .elsewhen(funct7 === "b0100000".U) {
+            io.uop := uopc.SRA
+          } .otherwise {
+            io.XcptInvalid := true.B
+          }
+        }
+
+        is("b110".U) { io.uop := uopc.OR  }
+        is("b111".U) { io.uop := uopc.AND }
+      }
+    }
+
+    // I-Type instructions
+    is("b0010011".U) {
+      io.operandB := immI
+
+      switch(funct3) {
+        is("b000".U) { io.uop := uopc.ADDI  }
+        is("b010".U) { io.uop := uopc.SLTI  }
+        is("b011".U) { io.uop := uopc.SLTIU }
+        is("b100".U) { io.uop := uopc.XORI  }
+        is("b110".U) { io.uop := uopc.ORI   }
+        is("b111".U) { io.uop := uopc.ANDI  }
+
+        is("b001".U) {
+          when(funct7 === "b0000000".U) {
+            io.uop := uopc.SLLI
+          } .otherwise {
+            io.XcptInvalid := true.B  //This instruction is invalid Raise an exception flag
+          }
+        }
+
+        is("b101".U) {
+          when(funct7 === "b0000000".U) {
+            io.uop := uopc.SRLI
+          } .elsewhen(funct7 === "b0100000".U) {
+            io.uop := uopc.SRAI
+          } .otherwise {
+            io.XcptInvalid := true.B
+          }
+        }
+      }
+    }
+
+    // Unknown opcode
+    is("b0000000".U) {
+      io.uop := uopc.NOP
+      io.XcptInvalid := true.B
+    }
+  }
+}
 
 //ToDo: Add your implementation according to the specification above here 

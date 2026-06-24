@@ -15,7 +15,7 @@ class PipelinedRISCV32ITest extends AnyFlatSpec with ChiselScalatestTester {
 
 "RV32I_BasicTester" should "work" in {
     test(new PipelinedRV32I("src/test/programs/BinaryFile_pipelined")).withAnnotations(Seq(WriteVcdAnnotation)) { dut =>
-
+/*
       dut.clock.setTimeout(0)
       dut.clock.step(5)
       dut.io.result.expect(0.U)     // ADDI x0, x0, 0
@@ -27,6 +27,15 @@ class PipelinedRISCV32ITest extends AnyFlatSpec with ChiselScalatestTester {
       dut.io.result.expect(5.U)     // ADDI x2, x0, 5
       dut.io.exception.expect(false.B)
       dut.clock.step(1)
+      dut.io.result.expect(0.U)     // ADDI x0, x0, 0
+      dut.io.exception.expect(false.B)
+      dut.clock.step(1)
+      dut.io.result.expect(0.U)     // ADDI x0, x0, 0
+      dut.io.exception.expect(false.B)
+      dut.clock.step(1)
+      dut.io.result.expect(0.U)     // ADDI x0, x0, 0
+      dut.io.exception.expect(false.B)
+      dut.clock.step(1)
       dut.io.result.expect(9.U)     // ADD x3, x1, x2
       dut.io.exception.expect(false.B)
       dut.clock.step(1)
@@ -36,7 +45,25 @@ class PipelinedRISCV32ITest extends AnyFlatSpec with ChiselScalatestTester {
       dut.io.result.expect(16.U)    // ADDI x5, x0, 16
       dut.io.exception.expect(false.B)
       dut.clock.step(1)
+      dut.io.result.expect(0.U)     // ADDI x0, x0, 0
+      dut.io.exception.expect(false.B)
+      dut.clock.step(1)
+      dut.io.result.expect(0.U)     // ADDI x0, x0, 0
+      dut.io.exception.expect(false.B)
+      dut.clock.step(1)
+      dut.io.result.expect(0.U)     // ADDI x0, x0, 0
+      dut.io.exception.expect(false.B)
+      dut.clock.step(1)
       dut.io.result.expect(2031.U)  // SUB x6, x4, x5
+      dut.io.exception.expect(false.B)
+      dut.clock.step(1)
+      dut.io.result.expect(0.U)     // ADDI x0, x0, 0
+      dut.io.exception.expect(false.B)
+      dut.clock.step(1)
+      dut.io.result.expect(0.U)     // ADDI x0, x0, 0
+      dut.io.exception.expect(false.B)
+      dut.clock.step(1)
+      dut.io.result.expect(0.U)     // ADDI x0, x0, 0
       dut.io.exception.expect(false.B)
       dut.clock.step(1)
       dut.io.result.expect(2022.U)  // XOR x7, x6, x3
@@ -46,6 +73,9 @@ class PipelinedRISCV32ITest extends AnyFlatSpec with ChiselScalatestTester {
       dut.io.exception.expect(false.B)
       dut.clock.step(1)
       dut.io.result.expect(0.U)     // AND x9, x6, x5
+      dut.io.exception.expect(false.B)
+      dut.clock.step(1)
+      dut.io.result.expect(0.U)     // ADDI x0, x0, 0
       dut.io.exception.expect(false.B)
       dut.clock.step(1)
       dut.io.result.expect(64704.U) // SLL x10, x7, x2
@@ -74,7 +104,77 @@ class PipelinedRISCV32ITest extends AnyFlatSpec with ChiselScalatestTester {
       dut.clock.step(1)
       dut.io.result.expect(1.U)     // SLTU x13, x5, x4
       dut.io.exception.expect(false.B)
-      dut.clock.step(1)           
+      dut.clock.step(1)      
+      dut.io.result.expect(31.U)    // XORI x14, x5, 15
+      dut.io.exception.expect(false.B)
+      dut.clock.step(1)
+      dut.io.result.expect(31.U)    // ORI x15, x5, 15
+      dut.io.exception.expect(false.B)
+      dut.clock.step(1)
+      dut.io.result.expect(0.U)     // ANDI x16, x5, 15
+      dut.io.exception.expect(false.B)
+      dut.clock.step(1)
+      dut.io.result.expect(1.U)     // SLTI x17, x5, 20
+      dut.io.exception.expect(false.B)
+      dut.clock.step(1)
+      dut.io.result.expect(0.U)     // SLTI x18, x5, 2
+      dut.io.exception.expect(false.B)
+      dut.clock.step(1)
+      dut.io.result.expect(0.U)     // SLTIU x19, x5, 2
+      dut.io.exception.expect(false.B)
+      dut.clock.step(1)
+      dut.io.result.expect(1.U)     // SLTIU x20, x5, 20
+      dut.io.exception.expect(false.B)
+      dut.clock.step(1)
+      dut.io.result.expect(64.U)    // SLLI x21, x5, 2
+      dut.io.exception.expect(false.B)
+      dut.clock.step(1)
+      dut.io.result.expect(4.U)     // SRLI x22, x5, 2
+      dut.io.exception.expect(false.B)
+      dut.clock.step(1)
+      dut.io.result.expect(4.U)     // SRAI x23, x5, 2
+      dut.io.exception.expect(false.B)
+      dut.clock.step(1)     
+      */
+      dut.clock.setTimeout(0)
+
+    dut.clock.step(5)
+    dut.io.result.expect(4.U)      // ADDI x1, x0, 4
+    dut.io.exception.expect(false.B)
+
+    dut.clock.step(1)
+    dut.io.result.expect(8.U)      // ADD x2, x1, x1
+    dut.io.exception.expect(false.B)
+
+    dut.clock.step(1)
+    dut.io.result.expect(12.U)     // ADD x3, x2, x1
+    dut.io.exception.expect(false.B)
+
+    dut.clock.step(1)
+    dut.io.result.expect(13.U)     // ADDI x4, x3, 1
+    dut.io.exception.expect(false.B)
+
+    dut.clock.step(1)
+    dut.io.result.expect(25.U)     // ADD x5, x4, x3
+    dut.io.exception.expect(false.B)
+
+    dut.clock.step(1)
+    dut.io.result.expect(1.U)      // ADDI x1, x0, 1
+    dut.io.exception.expect(false.B)
+
+    dut.clock.step(1)
+    dut.io.result.expect(2.U)      // ADDI x1, x1, 1
+    dut.io.exception.expect(false.B)
+
+    dut.clock.step(1)
+    dut.io.result.expect(2.U)      // ADD x6, x1, x0
+    dut.io.exception.expect(false.B)
+
+    dut.clock.step(1)
+    dut.io.result.expect(0.U)      // ADD x7, x0, x0
+    dut.io.exception.expect(false.B)
+
+    dut.clock.step(1)
     }
   }
 }
