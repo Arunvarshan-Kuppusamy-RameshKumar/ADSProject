@@ -70,6 +70,4 @@ class ForwardingUnit extends Module {
   } .elsewhen(io.wrEn_WB && (io.rd_WB =/= 0.U) && (io.rd_WB === io.rs2_EX)) {
     io.forwardB := 1.U
   }
-
-
 }

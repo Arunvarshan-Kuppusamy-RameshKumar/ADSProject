@@ -65,7 +65,7 @@ class PipelinedRV32Icore (BinaryFile: String) extends Module {
   })
 
 //ToDo: Add your implementation according to the specification above here 
-val ifStage    = Module(new IF(BinaryFile))
+  val ifStage    = Module(new IF(BinaryFile))
   val ifBarrier  = Module(new IFBarrier)
   val idStage    = Module(new ID)
   val idBarrier  = Module(new IDBarrier)

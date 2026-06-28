@@ -70,10 +70,10 @@ class regFile extends Module {
     io.resp_1.data := Mux(
     io.req_1.addr === 0.U,
     0.U,
-    Mux(
+    Mux(             //Same-cycle Read and Write
         io.req_3.wr_en && (io.req_3.addr =/= 0.U) && (io.req_3.addr === io.req_1.addr),
-        io.req_3.data,
-        registers(io.req_1.addr)
+        io.req_3.data,             //write and read
+        registers(io.req_1.addr)   //normal read
     )
     )
 

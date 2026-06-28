@@ -72,15 +72,15 @@ class ID extends Module {
 
   val immI = io.instr(31, 20).asSInt.asUInt  /////
 
-  io.regFileReq_A.addr := rs1
-  io.regFileReq_B.addr := rs2
+  io.regFileReq_A.addr := rs1    //register file
+  io.regFileReq_B.addr := rs2    //register file
 
   io.uop         := uopc.NOP
-  io.rd          := rd
-  io.rs1         := rs1
-  io.rs2         := 0.U
-  io.operandA    := io.regFileResp_A.data
-  io.operandB    := io.regFileResp_B.data
+  io.rd          := rd           //for sending to the next stage
+  io.rs1         := rs1          //for sending to the next stage
+  io.rs2         := 0.U          //for sending to the next stage
+  io.operandA    := io.regFileResp_A.data   //register file responds
+  io.operandB    := io.regFileResp_B.data   //register file responds
   io.XcptInvalid := false.B
 
   switch(opcode) {          ////////////////////
