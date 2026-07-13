@@ -11,10 +11,13 @@ class EX extends Module {
     val inOperandA    = Input(UInt(32.W))
     val inOperandB    = Input(UInt(32.W))
     val inXcptInvalid = Input(Bool())
+    val inPC = Input(UInt(32.W))
 
     val outRD          = Output(UInt(5.W))
     val aluResult      = Output(UInt(32.W))
     val outXcptInvalid = Output(Bool())
+    val redirect   = Output(Bool())
+    val redirectPC = Output(UInt(32.W))
   })
 
   // Use ALU from Assignment 02

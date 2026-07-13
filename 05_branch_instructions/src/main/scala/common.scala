@@ -26,5 +26,24 @@ import chisel3.experimental.ChiselEnum
 // -----------------------------------------
 // Global Definitions and Data Types
 // -----------------------------------------
+object uopc extends ChiselEnum {
+  val NOP = Value
+
+  // R-type
+  val ADD, SUB, AND, OR, XOR = Value
+  val SLL, SRL, SRA = Value
+  val SLT, SLTU = Value
+
+  // I-type
+  val ADDI, ANDI, ORI, XORI = Value
+  val SLLI, SRLI, SRAI = Value
+  val SLTI, SLTIU = Value
+
+  // B-type branch
+  val BEQ, BNE, BLT, BGE, BLTU, BGEU = Value
+
+  // Jumps
+  val JAL, JALR = Value
+}
 
 //ToDo: Add your implementation according to the specification above here 
